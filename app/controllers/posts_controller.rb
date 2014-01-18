@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 
 	before_action :find_group
+	before_action :login_required, :only => [:new, :create, :edit, :update, :destroy]
 
 	def new
 		@post = @group.posts.build
@@ -8,6 +9,7 @@ class PostsController < ApplicationController
 
 	def create
 		@post = @group.posts.new(post_params)
+		@post.author = current_user
 
 		if @post.save
 			redirect_to group_path(@group)
@@ -17,11 +19,11 @@ class PostsController < ApplicationController
 	end
 
 	def edit
-		@post = @group.posts.find(params[:id])
+		@post = current_user.posts.find(params[:id])
 	end
 
 	def update
-		@post = @group.posts.find(params[:id])
+		@post = current_user.posts.find(params[:id])
 
 		if @post.update(post_params)
 			redirect_to group_path(@group)
@@ -31,7 +33,7 @@ class PostsController < ApplicationController
 	end
 
 	def destroy
-		@post = @group.posts.find(params[:id])
+		@post = current_user.posts.find(params[:id])
 
 		@post.destroy
 
