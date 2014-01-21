@@ -50,6 +50,8 @@ gem "whenever"
 
 gem "hipchat"
 
+gem "rails_autolink", "~> 1.1.5"
+
 # Cache
 gem "dalli"
 

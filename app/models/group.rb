@@ -7,6 +7,8 @@ class Group < ActiveRecord::Base
 	belongs_to :owner, :class_name => "User", :foreign_key => :user_id
 	has_many :members, :through => :group_users, :source => :user
 
+	scope :count_order, -> { order("posts_count ASC") }
+
 	after_create :join_owner_to_group
 
 	def editable_by?(user)
